@@ -1,7 +1,10 @@
+"use client";
+
 import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Divider,
   Flex,
@@ -10,35 +13,40 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
+import AudioPlayer from "../../components/audio-player";
+import { useState } from "react";
 
 export interface Kuliah {
   id: string;
   title: string;
   description: string;
   thumbnail: string;
-  videoUrl: string;
+  audioSrc: string;
   ustaz: string;
 }
 const kuliahList: Kuliah[] = [
   {
     id: "1",
     title: "Fathul Muin",
-    description: "Bab Nikah",
+    description: "Bab Nikah Siri 1",
     ustaz: "Ustaz Mahadi",
     thumbnail: "",
-    videoUrl: "",
+    audioSrc:
+      "Siri_1_Fathul_Muin Munakahat_Bab Nikah_Ustaz_Mahadi_Mohammad.m4a",
   },
   {
     id: "2",
     title: "Fathul Muin",
-    description: "Bab Nikah",
+    description: "Bab Nikah Siri 2",
     ustaz: "Ustaz Mahadi",
     thumbnail: "",
-    videoUrl: "",
+    audioSrc:
+      "Siri_2_Fathul_Muin Munakahat_Bab Nikah_Ustaz_Mahadi_Mohammad.m4a",
   },
 ];
 
 export default function Home() {
+  const [currentAudio, setCurrentAudio] = useState<string | null>(null);
   return (
     <Flex direction="column" paddingX={20} marginY={10}>
       <Heading display="flex" alignItems="center" gap={2}>
@@ -86,9 +94,24 @@ export default function Home() {
                 <Text>{kuliah.description}</Text>
                 <Text>{kuliah.ustaz}</Text>
               </CardBody>
+              <CardFooter>
+                <Button
+                  onClick={() => {
+                    setCurrentAudio(kuliah.audioSrc);
+                  }}
+                  colorScheme="cyan"
+                  textColor="white"
+                >
+                  Mainkan
+                </Button>
+              </CardFooter>
             </Card>
           ))}
         </Flex>
+      </Flex>
+
+      <Flex border={2}>
+        <AudioPlayer src={currentAudio ?? ""} />
       </Flex>
     </Flex>
   );
